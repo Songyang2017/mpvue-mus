@@ -11,7 +11,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+page {
+  background-color: #000;
+}
 .container {
   height: 100%;
   display: flex;

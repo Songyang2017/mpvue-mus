@@ -1,5 +1,5 @@
 <template>
-  <div>朋友</div>
+  <div class="wrapper">朋友</div>
 </template>
 <script>
 export default {
@@ -7,5 +7,10 @@ export default {
 }
 </script>
 <style scoped lang="less">
+@import "../../common/style/index";
+
+.wrapper {
+  color: @color-text;
+}
 </style>
 

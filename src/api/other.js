@@ -1,11 +1,13 @@
-// let $root = 'http://localhost:3000'
-let $root = 'http://ace.ngrok.xiaomiqiu.cn'
+let $root = 'http://localhost:3000'
 
-export const getBanner = key => {
+export const search = key => {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `${$root}/banner`,
+      url: `${$root}/search`,
       method: 'get',
+      data: {
+        keywords: key
+      },
       success (res) {
         resolve(res.data)
       },

@@ -1,24 +1,26 @@
 {
   "pages": [
-    "pages/index/main",
-    "pages/logs/main",
-    "pages/counter/main",
     "pages/recommend/main",
+    "pages/index/main",
     "pages/friend/main",
-    "pages/radio/main"
+    "pages/radio/main",
+    "pages/logs/main",
+    "pages/counter/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#000",
+    "navigationBarTitleText": "网易云音乐",
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "color": "#333",
+    "color": "#fff",
+    "backgroundColor": "#000",
     "position": "top",
+    "selectedColor": "#d43c33",
     "list": [
       {
-        "pagePath": "pages/index/main",
+        "pagePath": "pages/recommend/main",
         "text": "推荐"
       },
       {
