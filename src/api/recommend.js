@@ -35,14 +35,15 @@ export const getRecommendPlayLists = () => {
 }
 
 // 精品歌单
-export const getPlayLists = (num, key) => {
+export const getPlayLists = (num, key, pageNo) => {
   return new Promise((resolve, reject) => {
     wx.request({
       url: `${$root}/top/playlist`,
       method: 'get',
       data: {
         limit: num,
-        order: key
+        order: key,
+        offset: pageNo
       },
       success (res) {
         resolve(res.data)

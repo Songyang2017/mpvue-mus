@@ -34,11 +34,11 @@ export default {
     })
   },
   mounted () {
-    this._getPlayLists(24, 'hot')
+    this._getPlayLists(10, 'hot', 0)
   },
   methods: {
-    _getPlayLists (num, key) { // 获取推荐歌单列表
-      getPlayLists(num, key).then(res => {
+    _getPlayLists (num, key, pageNo) { // 获取推荐歌单列表
+      getPlayLists(num, key, pageNo).then(res => {
         let { playlists, code } = res
         if (code === 200) {
           this.playlists = playlists
