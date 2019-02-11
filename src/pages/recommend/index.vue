@@ -28,7 +28,12 @@
       </swiper>
     </div>
     <div class="playlist">
-      <div class="playlist-title">推荐歌单</div>
+      <div
+        class="playlist-title"
+        @click="goMusList"
+      >推荐歌单
+        <icon class="iconfont icon-jinru"></icon>
+      </div>
       <div class="playlist-wrapper">
         <div
           v-for="(item, index) in playlists"
@@ -37,7 +42,7 @@
         >
           <img
             @click="goDetail(item.id)"
-            :src="item.coverImgUrl"
+            :src="item.picUrl"
             alt=""
           >
           <div class="playlist-name">{{item.name}}</div>
@@ -47,7 +52,7 @@
   </div>
 </template>
 <script>
-import { getBanner, getPlayLists } from '@/api/recommend'
+import { getBanner, getRecommendPlayLists } from '@/api/recommend'
 export default {
   data () {
     return {
@@ -57,7 +62,7 @@ export default {
   },
   mounted () {
     this._getBanner()
-    this._getPlayLists(6, 'hot')
+    this._getRecommendPlayLists()
   },
   methods: {
     _getBanner () { // 获取banners
@@ -68,12 +73,18 @@ export default {
         }
       })
     },
-    _getPlayLists (num, key) { // 获取推荐歌单列表
-      getPlayLists(num, key).then(res => {
-        let { playlists, code } = res
+    _getRecommendPlayLists () {
+      getRecommendPlayLists().then(res => {
+        let { result, code } = res
         if (code === 200) {
-          this.playlists = playlists
+          let _result = result.filter((v, i) => { return i % 2 === 0 && i < 12 })
+          this.playlists = _result
         }
+      })
+    },
+    goMusList () {
+      wx.navigateTo({
+        url: `/pages/music-list/main`
       })
     },
     goDetail (id) { // 进入歌单详情
@@ -85,6 +96,7 @@ export default {
 }
 </script>
 <style scoped lang="less">
+@import "../../common/icon/iconfont.css";
 @import "../../common/style/index";
 
 .wrapper {
@@ -107,8 +119,16 @@ export default {
   }
   .playlist {
     .playlist-title {
-      font-size: @font-size-medium;
+      font-size: @font-size-medium-x;
       padding: 5rpx 10rpx;
+      margin-bottom: 10rpx;
+      // display: flex;
+      // align-items: center;
+      .icon-jinru {
+        // transform: translateY(-10%);
+        color: @color-text-s;
+        font-size: 30rpx;
+      }
     }
     .playlist-wrapper {
       width: 100%;
@@ -128,6 +148,7 @@ export default {
         }
         .playlist-name {
           width: 100%;
+          height: 66rpx;
           padding: 5rpx 0;
           .multiEllipsis(2);
           font-size: @font-size-small;

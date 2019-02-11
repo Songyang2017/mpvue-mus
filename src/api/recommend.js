@@ -18,6 +18,22 @@ export const getBanner = key => {
   })
 }
 
+// 推荐歌单
+export const getRecommendPlayLists = () => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: `${$root}/personalized`,
+      method: 'get',
+      success (res) {
+        resolve(res.data)
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}
+
 // 精品歌单
 export const getPlayLists = (num, key) => {
   return new Promise((resolve, reject) => {
