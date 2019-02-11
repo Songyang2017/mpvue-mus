@@ -4,6 +4,8 @@
     "pages/index/main",
     "pages/friend/main",
     "pages/radio/main",
+    "pages/song-list/main",
+    "pages/login/main",
     "pages/logs/main",
     "pages/counter/main"
   ],
