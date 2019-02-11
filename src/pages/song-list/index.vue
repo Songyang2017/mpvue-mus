@@ -146,7 +146,7 @@ export default {
     }
     .top-funcs {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       padding: 0 30rpx;
       .icon-wrapper {
         font-size: 0;
