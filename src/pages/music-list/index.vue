@@ -21,27 +21,49 @@
 </template>
 <script>
 import { getPlayLists } from '@/api/recommend'
+const PAGE_SIZE = 10
 export default {
   data () {
     return {
-      playlists: []
+      playlists: [],
+      pageIndex: 0,
+      total: 0
     }
   },
   onLoad () {
     this.playlists.length = 0
-    wx.showLoading({
-      title: '加载中'
-    })
+    this.pageIndex = 0
+    this.total = 0
+  },
+  onReachBottom () {
+    this.pageIndex += PAGE_SIZE
+    if (this.total !== 0 && this.total > this.playlists.length) {
+      this._getPlayLists(PAGE_SIZE, 'hot', this.pageIndex)
+    } else {
+      wx.showToast({
+        title: '到底啦！',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+    console.log(123)
   },
   mounted () {
-    this._getPlayLists(10, 'hot', 0)
+    this._getPlayLists(PAGE_SIZE, 'hot', this.pageIndex)
+  },
+  watch: {
   },
   methods: {
     _getPlayLists (num, key, pageNo) { // 获取推荐歌单列表
+      wx.showLoading({
+        title: '玩命加载中'
+      })
       getPlayLists(num, key, pageNo).then(res => {
-        let { playlists, code } = res
+        let { playlists, code, total } = res
         if (code === 200) {
-          this.playlists = playlists
+          this.playlists = this.playlists.concat(playlists)
+          this.total = total
+          // this.total = 20
           wx.hideLoading()
         }
       })

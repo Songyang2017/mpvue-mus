@@ -65,7 +65,7 @@ export default {
     this.playlist = {}
     this.creator = {}
     wx.showLoading({
-      title: '加载中'
+      title: '玩命加载中'
     })
   },
   mounted () {
