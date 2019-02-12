@@ -1,5 +1,10 @@
 <template>
   <div class="box">
+    <maskTip
+      v-if="showTip"
+      @close="closeMask"
+      :msg="playlist"
+    ></maskTip>
     <div class="top">
       <img
         :src="playlist.coverImgUrl"
@@ -9,6 +14,7 @@
       <div class="top-title">
         <div class="left">
           <img
+            @click="openMask"
             :src="playlist.coverImgUrl"
             alt=""
           >
@@ -49,6 +55,7 @@
         <div
           class="list-item"
           v-for="(item,index) in list"
+          :key="index"
         >
           <div class="ins">{{index+1}}</div>
           <div class="content">
@@ -76,19 +83,22 @@
 </template>
 <script>
 import { getPlayListsDetail } from '@/api/other'
+import maskTip from '@/components/maskTip'
 
 export default {
   data () {
     return {
       list: [],
       creator: {},
-      playlist: {}
+      playlist: {},
+      showTip: false
     }
   },
   onLoad () {
     this.list.length = 0
     this.playlist = {}
     this.creator = {}
+    this.showTip = false
     wx.showLoading({
       title: '玩命加载中'
     })
@@ -96,6 +106,9 @@ export default {
   mounted () {
     let id = this.$root.$mp.query.id
     this._getPlayListsDetail(id)
+  },
+  components: {
+    maskTip
   },
   methods: {
     _getPlayListsDetail (_id) {
@@ -108,6 +121,12 @@ export default {
           wx.hideLoading()
         }
       })
+    },
+    openMask () {
+      this.showTip = true
+    },
+    closeMask () {
+      this.showTip = false
     }
   }
 }

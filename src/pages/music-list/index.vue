@@ -1,8 +1,5 @@
 <template>
   <div class="playlist">
-    <!-- <div class="playlist-title">推荐歌单
-      <icon class="iconfont icon-jinru"></icon>
-    </div> -->
     <div class="playlist-wrapper">
       <div
         v-for="(item, index) in playlists"
@@ -46,7 +43,6 @@ export default {
         duration: 2000
       })
     }
-    console.log(123)
   },
   mounted () {
     this._getPlayLists(PAGE_SIZE, 'hot', this.pageIndex)
@@ -99,14 +95,13 @@ export default {
       display: inline-block;
       padding: 10rpx 5rpx 25rpx;
       width: 375rpx;
-      // &:nth-child(1),
-      // &:nth-child(4) {
-      //   padding-left: 10rpx;
-      // }
       img {
         border-radius: 6rpx;
         width: 100%;
         height: 370rpx;
+        -moz-box-shadow: 5px 5px 5px #000 inset; /* For Firefox3.6+ */
+        -webkit-box-shadow: 5px 5px 5px #000 inset; /* For Chrome5+, Safari5+ */
+        box-shadow: 5px 5px 5px #000 inset;
       }
       .playlist-name {
         width: 100%;
