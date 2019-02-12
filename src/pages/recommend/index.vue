@@ -77,7 +77,7 @@ export default {
       getRecommendPlayLists().then(res => {
         let { result, code } = res
         if (code === 200) {
-          let _result = result.filter((v, i) => { return i % 2 === 0 && i < 12 })
+          let _result = result.filter((v, i) => { return i < 6 })
           this.playlists = _result
         }
       })

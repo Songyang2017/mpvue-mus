@@ -45,7 +45,32 @@
       </div>
     </div>
     <div class="bottom">
-
+      <div class="list-wrapper">
+        <div
+          class="list-item"
+          v-for="(item,index) in list"
+        >
+          <div class="ins">{{index+1}}</div>
+          <div class="content">
+            <div class="topic">
+              <text class="name">{{item.name}}</text>
+              &nbsp;
+              <span
+                class="alia"
+                v-if="item.alia"
+              >{{item.alia}}</span>
+            </div>
+            <div class="bot">
+              <span
+                v-for="(its, inx) in item.ar"
+                :key="inx"
+              >{{its.name}}&nbsp;</span>
+              <span>-&nbsp;</span>
+              <span>{{item.al.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -162,6 +187,38 @@ export default {
     }
   }
   .bottom {
+    .list-wrapper {
+      font-size: 0;
+      .list-item {
+        display: flex;
+        align-items: center;
+        margin: 30rpx 20rpx;
+        .ins {
+          font-size: @font-size-medium;
+          color: @color-gray;
+        }
+        .content {
+          margin-left: 25rpx;
+          .topic {
+            .multiEllipsis(1);
+            font-size: @font-size-medium-x;
+            .name {
+              color: @color-text-s;
+            }
+            .alia {
+              color: @color-gray;
+            }
+          }
+          .bot {
+            .multiEllipsis(1);
+            span {
+              font-size: @font-size-small;
+              color: @color-gray;
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>
