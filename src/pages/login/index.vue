@@ -7,7 +7,7 @@
     >
     <input
       v-model="param.password"
-      type="text"
+      type="password"
       placeholder="密码"
     >
     <div>{{res.nickname}}</div>
