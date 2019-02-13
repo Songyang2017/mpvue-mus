@@ -4,6 +4,7 @@
     "pages/index/main",
     "pages/friend/main",
     "pages/radio/main",
+    "pages/myprofile/main",
     "pages/song-list/main",
     "pages/music-list/main",
     "pages/login/main",
@@ -34,6 +35,10 @@
       {
         "pagePath": "pages/radio/main",
         "text": "电台"
+      },
+      {
+        "pagePath": "pages/myprofile/main",
+        "text": "我的"
       }
     ]
   }
