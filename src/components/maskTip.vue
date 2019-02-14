@@ -1,26 +1,32 @@
 <template>
-  <div class="mask-box">
-    <icon
-      class="iconfont icon-guanbi"
-      @click="close"
-    ></icon>
-    <div class="img">
-      <img
-        :src="msg.coverImgUrl"
-        alt=""
-      >
-    </div>
-    <div class="name">{{msg.name}}</div>
-    <div class="tags">
-      <div class="tags-text">标签：</div>
-      <div
-        class="tags-list"
-        v-for="(its, inx) in msg.tags"
-        :key="inx"
-      >{{its}}</div>
-    </div>
-    <div class="description">
-      <wxParse :content="msg.description"></wxParse>
+  <div
+    class="mask-box"
+    style="overflow: auto"
+  >
+    <div>
+      <icon
+        class="iconfont icon-guanbi"
+        @click="close"
+      ></icon>
+      <div class="img">
+        <img
+          :src="msg.coverImgUrl"
+          alt=""
+        >
+      </div>
+      <div class="name">{{msg.name}}</div>
+      <div class="tags">
+        <div class="tags-text">标签：</div>
+        <div
+          class="tags-list"
+          v-for="(its, inx) in msg.tags"
+          :key="inx"
+        >{{its}}</div>
+      </div>
+      <div class="description">
+        <!-- <wxParse :content="msg.description"></wxParse> -->
+        <text>{{msg.description}}</text>
+      </div>
     </div>
     <img
       :src="msg.coverImgUrl"
@@ -46,9 +52,6 @@ export default {
   components: {
     wxParse
   },
-  mounted () {
-    // this.$refs.desc.innerHTML = this.msg.description
-  },
   methods: {
     close () {
       this.$emit('close')
@@ -57,6 +60,7 @@ export default {
 }
 </script>
 <style scoped lang="less">
+// @import url("~mpvue-wxparse/src/wxParse.css");
 @import "../common/icon/iconfont.css";
 @import "../common/style/index";
 .mask-box {
@@ -76,7 +80,7 @@ export default {
   .background-mask {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
@@ -85,7 +89,7 @@ export default {
   .background-top {
     width: 640rpx;
     height: 100%;
-    position: absolute;
+    position: fixed;
     transform: scale(2.8, 2.8);
     .filter(10px);
     top: 0;
