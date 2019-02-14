@@ -41,9 +41,9 @@ export default {
       login(param).then(res => {
         let { code } = res
         if (code === 200) {
-          // wx.navigateTo({
-          //   url: '/pages/myprofile/main'
-          // })
+          wx.navigateBack({
+            delta: 1
+          })
           this.res = res.profile
           this.getUserData(res)
         }
@@ -56,7 +56,14 @@ export default {
     },
     toLogin () {
       if (!objSome(this.param)) {
-        this._login(this.param)
+        wx.login({
+          success: res => {
+            let { code } = res
+            if (code) {
+              this._login(this.param)
+            }
+          }
+        })
       } else {
         wx.showToast({
           title: '请填写完整！',

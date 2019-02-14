@@ -1,30 +1,55 @@
 <template>
   <div class="wrapper">
     <div>我的</div>
-    <!-- <img
-      v-if="userData.code"
-      :src="userData.profile.avatarUrl"
+    <img
+      v-if="data.code"
+      :src="data.profile.avatarUrl"
       alt=""
     >
-    <div v-if="userData.code">{{userData.profile.nickname}}</div> -->
-    <a href="/pages/login/main">登录</a>
+    <div v-if="data.code">{{data.profile.nickname}}</div>
+    <a
+      href="/pages/login/main"
+      v-if="!isLogin"
+    >登录</a>
   </div>
 </template>
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
+import { loginStatus } from '@/api/user'
+
 export default {
   data () {
     return {
-      data: {}
+      data: {
+        data: {},
+        isLogin: false
+      }
     }
   },
   mounted () {
-    console.log('log', this.$store)
+    console.log('log', this.userData)
+    this._loginStatus()
   },
   computed: {
-    // ...mapState([
-    //   'userData'
-    // ])
+    ...mapState([
+      'userData'
+    ])
+  },
+  methods: {
+    _loginStatus () {
+      loginStatus().then(res => {
+        let { code } = res
+        if (code === 200) {
+          this.isLogin = true
+          this.data = this.userData
+        }
+      })
+    }
+  },
+  watch: {
+    userData (val) {
+      this.data = val
+    }
   }
 }
 </script>
