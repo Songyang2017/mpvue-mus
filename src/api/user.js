@@ -25,7 +25,7 @@ export const login = param => {
       method: 'get',
       data: param,
       success (res) {
-        resolve(res.data)
+        resolve(res)
       },
       fail (err) {
         reject(err)
