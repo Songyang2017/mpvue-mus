@@ -1,10 +1,12 @@
 <template>
   <div class="wrapper">
-    <img
-      v-if="isLogin"
-      :src="data.avatarUrl"
-      alt=""
-    >
+    <div class="avatar">
+      <img
+        v-if="isLogin"
+        :src="data.avatarUrl"
+        alt=""
+      >
+    </div>
     <div v-if="isLogin">{{data.nickname}}</div>
     <a
       href="/pages/login/main"
@@ -47,7 +49,6 @@ export default {
         if (code === 200) {
           this.isLogin = true
           this._getDetail(userId)
-          // this.data = this.userData
         }
       })
     }
@@ -65,6 +66,16 @@ export default {
 
 .wrapper {
   color: @color-text;
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 </style>
 
