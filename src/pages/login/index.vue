@@ -10,7 +10,6 @@
       type="password"
       placeholder="密码"
     >
-    <div>{{res.nickname}}</div>
     <button @click="toLogin">登录</button>
     <button @click="_getEvents(res.userId)">动态</button>
   </div>
@@ -26,8 +25,7 @@ export default {
       param: {
         phone: '',
         password: ''
-      },
-      res: {}
+      }
     }
   },
   mounted () {
@@ -39,13 +37,15 @@ export default {
     ]),
     _login (param) {
       login(param).then(res => {
-        let { code } = res
+        let { code } = res.data
         if (code === 200) {
           wx.navigateBack({
             delta: 1
           })
-          this.res = res.profile
-          this.getUserData(res)
+          let cookie = res.header['Set-Cookie']
+          wx.setStorageSync('cookie', cookie)
+
+          this.getUserData(res.data.profile)
         }
       })
     },

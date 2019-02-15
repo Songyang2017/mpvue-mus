@@ -5,9 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userData: {
-      id: 123
-    }
+    userData: {}
   },
   mutations: {
     getUserData (state, payload) {
@@ -15,5 +13,3 @@ export default new Vuex.Store({
     }
   }
 })
-
-// export default store

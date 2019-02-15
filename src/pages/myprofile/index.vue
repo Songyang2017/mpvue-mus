@@ -1,12 +1,11 @@
 <template>
   <div class="wrapper">
-    <div>我的</div>
     <img
-      v-if="data.code"
-      :src="data.profile.avatarUrl"
+      v-if="isLogin"
+      :src="data.avatarUrl"
       alt=""
     >
-    <div v-if="data.code">{{data.profile.nickname}}</div>
+    <div v-if="isLogin">{{data.nickname}}</div>
     <a
       href="/pages/login/main"
       v-if="!isLogin"
@@ -15,15 +14,13 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import { loginStatus } from '@/api/user'
+import { loginStatus, getDetail } from '@/api/user'
 
 export default {
   data () {
     return {
-      data: {
-        data: {},
-        isLogin: false
-      }
+      data: {},
+      isLogin: false
     }
   },
   mounted () {
@@ -36,12 +33,21 @@ export default {
     ])
   },
   methods: {
+    _getDetail (id) {
+      getDetail(id).then(res => {
+        let { code, profile } = res
+        if (code === 200) {
+          this.data = profile
+        }
+      })
+    },
     _loginStatus () {
       loginStatus().then(res => {
-        let { code } = res
+        let { code, profile: { userId } } = res
         if (code === 200) {
           this.isLogin = true
-          this.data = this.userData
+          this._getDetail(userId)
+          // this.data = this.userData
         }
       })
     }
