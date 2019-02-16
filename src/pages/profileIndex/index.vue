@@ -1,45 +1,41 @@
 <template>
   <div class="wrapper">
+    <div class="background-cover">
+      <div class="mask-cover"></div>
+      <img
+        :src="data.backgroundUrl"
+        alt=""
+      >
+    </div>
     <div class="base-info">
       <div class="avatar">
         <img
-          @click="goProfile(data.userId)"
-          v-if="isLogin"
           :src="data.avatarUrl"
           alt=""
         >
       </div>
-      <div
-        v-if="isLogin"
-        class="name"
-      >{{data.nickname}}</div>
+      <div class="name">{{data.nickname}}</div>
     </div>
-    <a
-      href="/pages/login/main"
-      v-if="!isLogin"
-    >登录</a>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import { loginStatus, getDetail } from '@/api/user'
+import { getDetail } from '@/api/user'
 
 export default {
   data () {
     return {
-      data: {},
-      userId: '',
-      isLogin: false
+      data: {}
     }
   },
-  mounted () {
-    console.log('log', this.userData)
-    this._loginStatus()
+  onLoad () {
+    this.data = {}
+    wx.showLoading({
+      title: '玩命加载中'
+    })
   },
-  computed: {
-    ...mapState([
-      'userData'
-    ])
+  mounted () {
+    let uid = this.$root.$mp.query.uid
+    this._getDetail(uid)
   },
   methods: {
     _getDetail (id) {
@@ -47,28 +43,9 @@ export default {
         let { code, profile } = res
         if (code === 200) {
           this.data = profile
+          wx.hideLoading()
         }
       })
-    },
-    _loginStatus () {
-      loginStatus().then(res => {
-        let { code, profile: { userId } } = res
-        if (code === 200) {
-          this.isLogin = true
-          this.userId = userId
-          this._getDetail(userId)
-        }
-      })
-    },
-    goProfile (id) {
-      wx.navigateTo({
-        url: `/pages/profileIndex/main?uid=${id}`
-      })
-    }
-  },
-  watch: {
-    userData (val) {
-      this.data = val
     }
   }
 }
@@ -78,6 +55,34 @@ export default {
 @import "../../common/style/index";
 
 .wrapper {
+  color: @color-text;
+  .background-cover {
+    width: 100vw;
+    height: 70vw;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0;
+    z-index: -1;
+    .mask-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+    img {
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 100vw;
+      z-index: -1;
+    }
+  }
   .base-info {
     margin: 70px 10px;
     padding: 0 10px;

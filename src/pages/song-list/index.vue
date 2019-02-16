@@ -19,7 +19,10 @@
             alt=""
           >
         </div>
-        <div class="right">
+        <div
+          class="right"
+          @click="goProfile(playlist.userId)"
+        >
           <p class="name">{{playlist.name}}</p>
           <div class="builder">
             <img
@@ -91,7 +94,8 @@ export default {
       list: [],
       creator: {},
       playlist: {},
-      showTip: false
+      showTip: false,
+      isJump: true
     }
   },
   onLoad () {
@@ -102,6 +106,9 @@ export default {
     wx.showLoading({
       title: '玩命加载中'
     })
+  },
+  onShow () {
+    this.isJump = true
   },
   mounted () {
     let id = this.$root.$mp.query.id
@@ -121,6 +128,13 @@ export default {
           wx.hideLoading()
         }
       })
+    },
+    goProfile (id) {
+      if (this.isJump) {
+        wx.navigateTo({
+          url: `/pages/profileIndex/main?uid=${id}`
+        })
+      }
     },
     openMask () {
       this.showTip = true

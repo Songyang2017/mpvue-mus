@@ -57,8 +57,12 @@ export default {
   data () {
     return {
       banners: [],
-      playlists: []
+      playlists: [],
+      isJump: true
     }
+  },
+  onShow () {
+    this.isJump = true
   },
   mounted () {
     this._getBanner()
@@ -83,14 +87,18 @@ export default {
       })
     },
     goMusList () {
-      wx.navigateTo({
-        url: `/pages/music-list/main`
-      })
+      if (this.isJump) {
+        wx.navigateTo({
+          url: `/pages/music-list/main`
+        })
+      }
     },
     goDetail (id) { // 进入歌单详情
-      wx.navigateTo({
-        url: `/pages/song-list/main?id=${id}`
-      })
+      if (this.isJump) {
+        wx.navigateTo({
+          url: `/pages/song-list/main?id=${id}`
+        })
+      }
     }
   }
 }

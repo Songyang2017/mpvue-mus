@@ -5,6 +5,7 @@
     "pages/friend/main",
     "pages/radio/main",
     "pages/myprofile/main",
+    "pages/profileIndex/main",
     "pages/song-list/main",
     "pages/music-list/main",
     "pages/login/main",

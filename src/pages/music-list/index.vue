@@ -9,6 +9,7 @@
         <img
           @click="goDetail(item.id)"
           :src="item.coverImgUrl"
+          lazy-load="true"
           alt=""
         >
         <div class="playlist-name">{{item.name}}</div>
@@ -18,19 +19,26 @@
 </template>
 <script>
 import { getPlayLists } from '@/api/recommend'
-const PAGE_SIZE = 20
+import DEFAULT_IMG from '@/common/img/default.png'
+
+const PAGE_SIZE = 10
 export default {
   data () {
     return {
       playlists: [],
       pageIndex: 0,
-      total: 0
+      total: 0,
+      isJump: true,
+      defaultImg: DEFAULT_IMG
     }
   },
   onLoad () {
     this.playlists.length = 0
     this.pageIndex = 0
     this.total = 0
+  },
+  onShow () {
+    this.isJump = true
   },
   onReachBottom () {
     this.pageIndex += PAGE_SIZE
@@ -47,8 +55,6 @@ export default {
   mounted () {
     this._getPlayLists(PAGE_SIZE, 'hot', this.pageIndex)
   },
-  watch: {
-  },
   methods: {
     _getPlayLists (num, key, pageNo) { // 获取推荐歌单列表
       wx.showLoading({
@@ -59,15 +65,23 @@ export default {
         if (code === 200) {
           this.playlists = this.playlists.concat(playlists)
           this.total = total
+
           // this.total = 20
+          // console.log(this.playlists)
           wx.hideLoading()
         }
       })
     },
     goDetail (id) { // 进入歌单详情
-      wx.navigateTo({
-        url: `/pages/song-list/main?id=${id}`
-      })
+      if (this.isJump) {
+        this.isJump = false
+        wx.navigateTo({
+          url: `/pages/song-list/main?id=${id}`,
+          success: res => {
+            this.isJump = false
+          }
+        })
+      }
     }
   }
 }
@@ -113,5 +127,8 @@ export default {
       }
     }
   }
+}
+.hide {
+  display: none;
 }
 </style>

@@ -1,4 +1,4 @@
-function formatNumber (n) {
+export function formatNumber (n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
@@ -34,7 +34,14 @@ export function objSome (obj, lis) {
   return arr.some(v => { return obj[v] === '' || typeof obj[v] === 'undefined' })
 }
 
-export default {
-  formatNumber,
-  formatTime
+export function debounce (func, delay) {
+  let timer
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
 }
