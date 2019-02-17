@@ -88,6 +88,7 @@ export default {
     },
     goMusList () {
       if (this.isJump) {
+        this.isJump = false
         wx.navigateTo({
           url: `/pages/music-list/main`
         })
@@ -95,6 +96,7 @@ export default {
     },
     goDetail (id) { // 进入歌单详情
       if (this.isJump) {
+        this.isJump = false
         wx.navigateTo({
           url: `/pages/song-list/main?id=${id}`
         })
