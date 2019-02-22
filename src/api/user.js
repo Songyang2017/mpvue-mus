@@ -1,5 +1,8 @@
 // let $root = 'http://localhost:3000'
-let $root = 'https://www.dogappend.com'
+// let $root = 'https://www.dogappend.com'
+let $root = 'http://ace.ngrok.xiaomiqiu.cn'
+// let $root = 'http://u-to-world.com:3000'
+
 let header = {
   cookie: wx.getStorageSync('cookie')
 }
@@ -63,6 +66,25 @@ export const getDetail = _id => {
   return new Promise((resolve, reject) => {
     wx.request({
       url: `${$root}/user/detail`,
+      method: 'get',
+      header: header,
+      data: {
+        uid: _id
+      },
+      success (res) {
+        resolve(res.data)
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}
+// 获取用户歌单/user/playlist
+export const getUserSongList = _id => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: `${$root}/user/playlist`,
       method: 'get',
       header: header,
       data: {

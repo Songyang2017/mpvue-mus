@@ -15,11 +15,16 @@
         >
       </div>
       <div class="name">{{data.nickname}}</div>
+      <div class="followers-desc">
+        <span>关注&nbsp;{{data.follows}}</span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>粉丝&nbsp;{{data.followeds}}</span>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { getDetail } from '@/api/user'
+import { getDetail, getUserSongList } from '@/api/user'
 
 export default {
   data () {
@@ -33,9 +38,14 @@ export default {
       title: '玩命加载中'
     })
   },
+  computed: {
+    uid () {
+      return this.$root.$mp.query.uid
+    }
+  },
   mounted () {
-    let uid = this.$root.$mp.query.uid
-    this._getDetail(uid)
+    this._getDetail(this.uid)
+    this._getUserSongList(this.uid)
   },
   methods: {
     _getDetail (id) {
@@ -45,6 +55,11 @@ export default {
           this.data = profile
           wx.hideLoading()
         }
+      })
+    },
+    _getUserSongList (id) {
+      getUserSongList(id).then(res => {
+
       })
     }
   }
@@ -84,7 +99,7 @@ export default {
     }
   }
   .base-info {
-    margin: 70px 10px;
+    margin: 100px 10px 40px;
     padding: 0 10px;
     .avatar {
       width: 70px;
@@ -97,9 +112,13 @@ export default {
       }
     }
     .name {
-      margin-top: 10px;
+      margin: 10px 0 6px;
       font-size: @font-size-medium-x;
       color: @color-text-x;
+    }
+    .followers-desc {
+      color: @color-text-x;
+      font-size: @font-size-small;
     }
   }
 }

@@ -1,17 +1,25 @@
 <template>
-  <div>
-    <input
-      v-model="param.phone"
-      type="text"
-      placeholder="用户名"
-    >
-    <input
-      v-model="param.password"
-      type="password"
-      placeholder="密码"
-    >
-    <button @click="toLogin">登录</button>
-    <button @click="_getEvents(res.userId)">动态</button>
+  <div class="inp-wrapper">
+    <div class="user-number">
+      <i class="iconfont icon-shouji"></i>
+      <input
+        v-model="param.phone"
+        type="text"
+        placeholder="用户名"
+      >
+    </div>
+    <div class="password">
+      <i class="iconfont icon-mima"></i>
+      <input
+        v-model="param.password"
+        type="password"
+        placeholder="密码"
+      >
+    </div>
+    <button
+      @click="toLogin"
+      class="login"
+    >登&nbsp;录</button>
   </div>
 </template>
 <script>
@@ -42,10 +50,17 @@ export default {
           wx.navigateBack({
             delta: 1
           })
+          wx.hideLoading()
           let cookie = res.header['Set-Cookie']
           wx.setStorageSync('cookie', cookie)
 
           this.getUserData(res.data.profile)
+        } else {
+          wx.showToast({
+            title: '您的用户名或密码有误！',
+            icon: 'none',
+            duration: 2000
+          })
         }
       })
     },
@@ -56,6 +71,9 @@ export default {
     },
     toLogin () {
       if (!objSome(this.param)) {
+        wx.showLoading({
+          title: '正在为您登录'
+        })
         wx.login({
           success: res => {
             let { code } = res
@@ -79,8 +97,43 @@ export default {
 @import "../../common/icon/iconfont.css";
 @import "../../common/style/index";
 input,
-div {
-  font-size: @font-size-medium-x;
+.inp-wrapper {
+  padding: 10px;
+  font-size: 0;
   color: @color-text-s;
+  .user-number {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid @color-item-background;
+    i {
+      font-size: @font-size-large;
+    }
+    input {
+      flex: 1;
+      font-size: @font-size-medium-x;
+    }
+  }
+  .password {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid @color-item-background;
+    i {
+      font-size: @font-size-large;
+    }
+    input {
+      flex: 1;
+      font-size: @font-size-medium-x;
+    }
+  }
+  .login {
+    border: none;
+    padding: 5rpx 0;
+    background-color: @color-text-d;
+    font-size: @font-size-medium-x;
+    border-radius: 50px;
+    color: @color-text-s;
+  }
 }
 </style>

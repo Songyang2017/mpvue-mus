@@ -9,7 +9,6 @@
         <img
           @click="goDetail(item.id)"
           :src="item.coverImgUrl"
-          lazy-load="true"
           alt=""
         >
         <div class="playlist-name">{{item.name}}</div>

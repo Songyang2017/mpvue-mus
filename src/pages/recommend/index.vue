@@ -31,7 +31,8 @@
       <div
         class="playlist-title"
         @click="goMusList"
-      >推荐歌单
+      >
+        <span>推荐歌单</span>
         <icon class="iconfont icon-jinru"></icon>
       </div>
       <div class="playlist-wrapper">
@@ -132,10 +133,7 @@ export default {
       font-size: @font-size-medium-x;
       padding: 5rpx 10rpx;
       margin-bottom: 10rpx;
-      // display: flex;
-      // align-items: center;
       .icon-jinru {
-        // transform: translateY(-10%);
         color: @color-text-s;
         font-size: 30rpx;
       }

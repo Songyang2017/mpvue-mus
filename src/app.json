@@ -7,8 +7,8 @@
     "pages/myprofile/main",
     "pages/profileIndex/main",
     "pages/song-list/main",
-    "pages/music-list/main",
     "pages/login/main",
+    "pages/music-list/main",
     "pages/logs/main",
     "pages/counter/main"
   ],

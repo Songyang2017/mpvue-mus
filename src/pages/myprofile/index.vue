@@ -1,22 +1,29 @@
 <template>
   <div class="wrapper">
-    <div class="base-info">
-      <div class="avatar">
-        <img
-          @click="goProfile(data.userId)"
-          v-if="isLogin"
-          :src="data.avatarUrl"
-          alt=""
-        >
-      </div>
+    <div
+      class="base-info"
+      v-if="isLogin"
+    >
       <div
-        v-if="isLogin"
-        class="name"
-      >{{data.nickname}}</div>
+        class="avatar-item"
+        @click="goProfile(data.userId)"
+      >
+        <div class="avatar-block">
+          <div class="avatar">
+            <img
+              :src="data.avatarUrl"
+              alt=""
+            >
+          </div>
+          <div class="name">{{data.nickname}}</div>
+        </div>
+        <i class="iconfont icon-jinru"></i>
+      </div>
     </div>
     <a
       href="/pages/login/main"
       v-if="!isLogin"
+      class="toLogin"
     >登录</a>
   </div>
 </template>
@@ -32,8 +39,8 @@ export default {
       isLogin: false
     }
   },
-  mounted () {
-    console.log('log', this.userData)
+  onShow () {
+    // console.log('log', this.userData)
     this._loginStatus()
   },
   computed: {
@@ -57,6 +64,8 @@ export default {
           this.isLogin = true
           this.userId = userId
           this._getDetail(userId)
+        } else {
+          this.isLogin = false
         }
       })
     },
@@ -79,23 +88,39 @@ export default {
 
 .wrapper {
   .base-info {
-    margin: 70px 10px;
-    padding: 0 10px;
-    .avatar {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
+    // padding: 10px;
+    .avatar-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      justify-content: space-between;
+      background: @color-item-background;
+      .avatar-block {
+        .avatar {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .name {
+          margin-top: 10px;
+          font-size: @font-size-medium-x;
+          color: @color-text-x;
+        }
+      }
+      .icon-jinru {
+        color: @color-text-s;
+        font-size: @font-size-large-x;
       }
     }
-    .name {
-      margin-top: 10px;
-      font-size: @font-size-medium-x;
-      color: @color-text-x;
-    }
+  }
+  .toLogin {
+    font-size: @font-size-medium-x;
+    color: @color-text-s;
   }
 }
 </style>

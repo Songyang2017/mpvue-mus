@@ -31,6 +31,7 @@
               alt=""
             >
             <text>{{creator.nickname}}</text>
+            <i class="icon-jinru iconfont"></i>
           </div>
         </div>
       </div>
@@ -189,6 +190,7 @@ export default {
           font-size: 0;
           display: flex;
           align-items: center;
+          color: @color-text-s;
           img {
             width: 45rpx;
             height: 45rpx;
@@ -197,7 +199,10 @@ export default {
           text {
             margin-left: 10rpx;
             font-size: @font-size-medium;
-            color: @color-text-s;
+          }
+          .icon-jinru {
+            font-size: 14px;
+            transform: translate3d(0, 3rpx, 0);
           }
         }
       }
