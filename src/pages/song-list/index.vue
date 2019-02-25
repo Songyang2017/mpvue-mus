@@ -132,6 +132,7 @@ export default {
     },
     goProfile (id) {
       if (this.isJump) {
+        // console.log('id', id, `/pages/profileIndex/main?uid=${id}`)
         wx.navigateTo({
           url: `/pages/profileIndex/main?uid=${id}`
         })

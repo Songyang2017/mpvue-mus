@@ -53,6 +53,8 @@
   </div>
 </template>
 <script>
+import { loginStatus, getDetail } from '@/api/user'
+import { mapMutations, mapState } from 'vuex'
 import { getBanner, getRecommendPlayLists } from '@/api/recommend'
 export default {
   data () {
@@ -68,8 +70,41 @@ export default {
   mounted () {
     this._getBanner()
     this._getRecommendPlayLists()
+    if (!this.userId) {
+      this._loginStatus()
+    }
+  },
+  computed: {
+    ...mapState([
+      'userId'
+    ])
   },
   methods: {
+    ...mapMutations([
+      'getUserId',
+      'checkLogin',
+      'getUserData'
+    ]),
+    _getDetail (id) {
+      getDetail(id).then(res => {
+        let { code, profile } = res
+        if (code === 200) {
+          this.getUserData(profile)
+        }
+      })
+    },
+    _loginStatus () {
+      loginStatus().then(res => {
+        let { code, profile: { userId } } = res
+        if (code === 200) {
+          this.checkLogin(true)
+          this.getUserId(userId)
+          this._getDetail(userId)
+        } else {
+          this.checkLogin(false)
+        }
+      })
+    },
     _getBanner () { // 获取banners
       getBanner().then(res => {
         let { banners, code } = res

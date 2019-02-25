@@ -6,16 +6,16 @@
     >
       <div
         class="avatar-item"
-        @click="goProfile(data.userId)"
+        @click="goProfile(userData.userId)"
       >
         <div class="avatar-block">
           <div class="avatar">
             <img
-              :src="data.avatarUrl"
+              :src="userData.avatarUrl"
               alt=""
             >
           </div>
-          <div class="name">{{data.nickname}}</div>
+          <div class="name">{{userData.nickname}}</div>
         </div>
         <i class="iconfont icon-jinru"></i>
       </div>
@@ -29,46 +29,25 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import { loginStatus, getDetail } from '@/api/user'
+// import { loginStatus, getDetail } from '@/api/user'
 
 export default {
   data () {
     return {
-      data: {},
-      userId: '',
-      isLogin: false
+
     }
   },
   onShow () {
-    // console.log('log', this.userData)
-    this._loginStatus()
+
   },
   computed: {
     ...mapState([
-      'userData'
+      'userData',
+      'userId',
+      'isLogin'
     ])
   },
   methods: {
-    _getDetail (id) {
-      getDetail(id).then(res => {
-        let { code, profile } = res
-        if (code === 200) {
-          this.data = profile
-        }
-      })
-    },
-    _loginStatus () {
-      loginStatus().then(res => {
-        let { code, profile: { userId } } = res
-        if (code === 200) {
-          this.isLogin = true
-          this.userId = userId
-          this._getDetail(userId)
-        } else {
-          this.isLogin = false
-        }
-      })
-    },
     goProfile (id) {
       wx.navigateTo({
         url: `/pages/profileIndex/main?uid=${id}`

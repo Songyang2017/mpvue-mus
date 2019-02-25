@@ -23,9 +23,9 @@
   </div>
 </template>
 <script>
-import { login, getEvents } from '@/api/user'
-import { objSome } from '@/utils/index'
+import { login, getEvents, loginStatus, getDetail } from '@/api/user'
 import { mapMutations } from 'vuex'
+import { objSome } from '@/utils/index'
 
 export default {
   data () {
@@ -41,20 +41,41 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'getUserId',
+      'checkLogin',
       'getUserData'
     ]),
+    _getDetail (id) {
+      getDetail(id).then(res => {
+        let { code, profile } = res
+        if (code === 200) {
+          this.getUserData(profile)
+        }
+      })
+    },
+    _loginStatus () {
+      loginStatus().then(res => {
+        let { code, profile: { userId } } = res
+        if (code === 200) {
+          this.checkLogin(true)
+          this.getUserId(userId)
+          this._getDetail(userId)
+        } else {
+          this.checkLogin(false)
+        }
+      })
+    },
     _login (param) {
       login(param).then(res => {
         let { code } = res.data
         if (code === 200) {
-          wx.navigateBack({
-            delta: 1
-          })
           wx.hideLoading()
           let cookie = res.header['Set-Cookie']
           wx.setStorageSync('cookie', cookie)
-
-          this.getUserData(res.data.profile)
+          console.log(cookie, wx.getStorageSync('cookie'))
+          wx.navigateBack({
+            delta: 1
+          })
         } else {
           wx.showToast({
             title: '您的用户名或密码有误！',
@@ -74,14 +95,7 @@ export default {
         wx.showLoading({
           title: '正在为您登录'
         })
-        wx.login({
-          success: res => {
-            let { code } = res
-            if (code) {
-              this._login(this.param)
-            }
-          }
-        })
+        this._login(this.param)
       } else {
         wx.showToast({
           title: '请填写完整！',
