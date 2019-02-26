@@ -99,3 +99,22 @@ export const getUserSongList = _id => {
     })
   })
 }
+// 获取用户粉丝列表
+export const getUserFolloweds = _id => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: `${$root}/user/followeds`,
+      method: 'get',
+      header: header,
+      data: {
+        uid: _id
+      },
+      success (res) {
+        resolve(res.data)
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}

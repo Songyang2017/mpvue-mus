@@ -9,6 +9,7 @@
     "pages/song-list/main",
     "pages/login/main",
     "pages/music-list/main",
+    "pages/followeds/main",
     "pages/logs/main",
     "pages/counter/main"
   ],

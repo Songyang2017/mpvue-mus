@@ -18,7 +18,7 @@
       <div class="followers-desc">
         <span>关注&nbsp;{{data.follows}}</span>
         <span>&nbsp;|&nbsp;</span>
-        <span>粉丝&nbsp;{{data.followeds}}</span>
+        <span @click="goFloweds(data.userId)">粉丝&nbsp;{{data.followeds}}</span>
       </div>
       <div class="signature">{{data.signature}}</div>
     </div>
@@ -102,6 +102,17 @@ export default {
           this.playList = playlist
         }
       })
+    },
+    goFloweds (id) { // 进入粉丝列表
+      if (this.isJump) {
+        this.isJump = false
+        wx.navigateTo({
+          url: `/pages/followeds/main?uid=${id}`,
+          success: res => {
+            this.isJump = false
+          }
+        })
+      }
     },
     goDetail (id) { // 进入歌单详情
       if (this.isJump) {
