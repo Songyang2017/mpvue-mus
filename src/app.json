@@ -12,6 +12,9 @@
     "pages/logs/main",
     "pages/counter/main"
   ],
+  "requiredBackgroundModes": [
+    "audio"
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#000",

@@ -32,11 +32,16 @@
         class="mus-wrapper"
         v-for="its in playList"
       >
-        <img
-          :src="its.coverImgUrl"
-          alt=""
+        <div
+          class="mus-content"
+          @click="goDetail(its.id)"
         >
-        <span>{{its.name}}</span>
+          <img
+            :src="its.coverImgUrl"
+            alt=""
+          >
+          <span>{{its.name}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -50,6 +55,7 @@ export default {
     return {
       data: {},
       playList: [],
+      isJump: true,
       isHostUser: false // 所进主页是否为用户自己的，true则是，false不是
     }
   },
@@ -59,6 +65,9 @@ export default {
     wx.showLoading({
       title: '玩命加载中'
     })
+  },
+  onShow () {
+    this.isJump = true
   },
   mounted () {
     let _uid = this.$root.$mp.query.uid
@@ -93,6 +102,17 @@ export default {
           this.playList = playlist
         }
       })
+    },
+    goDetail (id) { // 进入歌单详情
+      if (this.isJump) {
+        this.isJump = false
+        wx.navigateTo({
+          url: `/pages/song-list/main?id=${id}`,
+          success: res => {
+            this.isJump = false
+          }
+        })
+      }
     }
   }
 }
@@ -174,19 +194,21 @@ export default {
   .mus {
     padding: 15px 10px;
     .mus-wrapper {
-      display: flex;
       margin-bottom: 10px;
       &:last-child {
         margin-bottom: 0;
       }
-      img {
-        width: 50px;
-        height: 50px;
-      }
-      span {
-        margin-left: 10px;
-        color: @color-text-x;
-        font-size: @font-size-medium;
+      .mus-content {
+        display: flex;
+        img {
+          width: 50px;
+          height: 50px;
+        }
+        span {
+          margin-left: 10px;
+          color: @color-text-x;
+          font-size: @font-size-medium;
+        }
       }
     }
   }
