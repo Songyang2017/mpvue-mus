@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import { login, getEvents, loginStatus, getDetail } from '@/api/user'
+import { login, loginStatus, getDetail } from '@/api/user'
 import { mapMutations } from 'vuex'
 import { objSome } from '@/utils/index'
 
@@ -83,11 +83,6 @@ export default {
             duration: 2000
           })
         }
-      })
-    },
-    _getEvents (id) {
-      getEvents(id).then(res => {
-
       })
     },
     toLogin () {

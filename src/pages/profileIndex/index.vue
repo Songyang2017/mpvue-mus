@@ -23,14 +23,27 @@
       <div class="signature">{{data.signature}}</div>
     </div>
     <div class="bot">
-      <div class="active-tab">音乐</div>
-      <div>动态</div>
-      <div>关于TA</div>
+      <div
+        @click="tab(0)"
+        :class="{'active-tab': tabFlag === 0}"
+      >音乐</div>
+      <div
+        @click="tab(1)"
+        :class="{'active-tab': tabFlag === 1}"
+      >动态</div>
+      <div
+        @click="tab(2)"
+        :class="{'active-tab': tabFlag === 2}"
+      >关于TA</div>
     </div>
-    <div class="mus">
+    <div
+      v-if="tabFlag === 0"
+      class="mus"
+    >
       <div
         class="mus-wrapper"
-        v-for="its in playList"
+        v-for="(its,inx) in playList"
+        :key="inx"
       >
         <div
           class="mus-content"
@@ -44,10 +57,36 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="tabFlag === 1"
+      class="mus"
+    >
+      <div
+        class="mus-wrapper"
+        v-for="(item,inx) in events"
+        :key="inx"
+      >
+        <div class="mus-content">
+          <div v-if="item._json.msg">{{item._json.msg}}</div>
+          <div class="imgs">
+            <img
+              v-for="(it,ins) in events.pics"
+              :key="ins"
+              :src="it.pcSquareUrl"
+              alt=""
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="tabFlag === 2"
+      class="mus"
+    >关于TA</div>
   </div>
 </template>
 <script>
-import { getDetail, getUserSongList } from '@/api/user'
+import { getEvents, getDetail, getUserSongList } from '@/api/user'
 import { mapState } from 'vuex'
 
 export default {
@@ -55,13 +94,16 @@ export default {
     return {
       data: {},
       playList: [],
+      events: [],
       isJump: true,
+      tabFlag: 0,
       isHostUser: false // 所进主页是否为用户自己的，true则是，false不是
     }
   },
   onLoad () {
     this.data = {}
     this.playList.length = 0
+    this.events.length = 0
     wx.showLoading({
       title: '玩命加载中'
     })
@@ -73,6 +115,7 @@ export default {
     let _uid = this.$root.$mp.query.uid
     this._getDetail(_uid)
     this._getUserSongList(_uid)
+    this._getEvents(_uid)
   },
   computed: {
     ...mapState([
@@ -80,6 +123,17 @@ export default {
     ])
   },
   methods: {
+    _getEvents (id) {
+      getEvents(id).then(res => {
+        let { code, events } = res
+        if (code === 200) {
+          this.events = events
+          this.events.forEach(val => {
+            val._json = JSON.parse(val.json)
+          })
+        }
+      })
+    },
     _getDetail (id) {
       getDetail(id).then(res => {
         let { code, profile } = res
@@ -102,6 +156,9 @@ export default {
           this.playList = playlist
         }
       })
+    },
+    tab (inx) {
+      this.tabFlag = inx
     },
     goFloweds (id) { // 进入粉丝列表
       if (this.isJump) {
