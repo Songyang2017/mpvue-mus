@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-
     <div class="mus">
       <div
         class="mus-wrapper"
-        v-for="its in list"
+        v-for="(its, index) in list"
+        :key="index"
       >
         <div
           class="mus-content"

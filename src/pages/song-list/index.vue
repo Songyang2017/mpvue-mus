@@ -60,6 +60,7 @@
           class="list-item"
           v-for="(item,index) in list"
           :key="index"
+          @click="goPlay(item.id)"
         >
           <div class="ins">{{index+1}}</div>
           <div class="content">
@@ -137,6 +138,13 @@ export default {
           url: `/pages/profileIndex/main?uid=${id}`
         })
       }
+    },
+    goPlay (id) {
+      console.log(id)
+      let url = `https://music.163.com/song/media/outer/url?id=${id}.mp3 `
+      const innerAudioContext = wx.createInnerAudioContext()
+      innerAudioContext.autoplay = true
+      innerAudioContext.src = url
     },
     openMask () {
       this.showTip = true
