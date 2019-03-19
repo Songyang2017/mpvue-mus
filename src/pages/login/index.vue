@@ -25,7 +25,7 @@
 <script>
 import { login, loginStatus, getDetail } from '@/api/user'
 import { mapMutations } from 'vuex'
-import { objSome } from '@/utils/index'
+import { objSome, setToken } from '@/utils/index'
 
 export default {
   data () {
@@ -71,8 +71,9 @@ export default {
         if (code === 200) {
           wx.hideLoading()
           let cookie = res.header['Set-Cookie']
-          wx.setStorageSync('cookie', cookie)
-          console.log(cookie, wx.getStorageSync('cookie'))
+          setToken(cookie)
+          // wx.setStorageSync('cookie', cookie)
+          // console.log(cookie, wx.getStorageSync('cookie'))
           wx.navigateBack({
             delta: 1
           })

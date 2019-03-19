@@ -1,3 +1,14 @@
+const TOKEN_KEY = 'token'
+
+export function setToken(token) {
+  wx.setStorageSync(TOKEN_KEY, token)
+}
+export function getToken() {
+  const token = wx.getStorageSync(TOKEN_KEY)
+  if (token) return token
+  else return false
+}
+
 export function formatNumber (n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
