@@ -1,9 +1,9 @@
 const TOKEN_KEY = 'token'
 
-export function setToken(token) {
+export function setToken (token) {
   wx.setStorageSync(TOKEN_KEY, token)
 }
-export function getToken() {
+export function getToken () {
   const token = wx.getStorageSync(TOKEN_KEY)
   if (token) return token
   else return false

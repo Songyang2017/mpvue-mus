@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { setToken, getToken } from '../utils'
 
 Vue.use(Vuex)
 
@@ -7,7 +8,8 @@ export default new Vuex.Store({
   state: {
     userId: '',
     userData: {},
-    isLogin: false
+    isLogin: getToken() || false,
+    token: getToken()
   },
   mutations: {
     getUserData (state, payload) {
@@ -16,8 +18,10 @@ export default new Vuex.Store({
     getUserId (state, payload) {
       state.userId = payload
     },
-    checkLogin (state, payload) {
-      state.isLogin = payload
+    setToken (state, token) {
+      state.token = token
+      state.isLogin = token !== ''
+      setToken(token)
     }
   }
 })

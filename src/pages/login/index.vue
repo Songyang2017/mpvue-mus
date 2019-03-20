@@ -25,7 +25,7 @@
 <script>
 import { login, loginStatus, getDetail } from '@/api/user'
 import { mapMutations } from 'vuex'
-import { objSome, setToken } from '@/utils/index'
+import { objSome } from '@/utils/index'
 
 export default {
   data () {
@@ -42,8 +42,8 @@ export default {
   methods: {
     ...mapMutations([
       'getUserId',
-      'checkLogin',
-      'getUserData'
+      'getUserData',
+      'setToken'
     ]),
     _getDetail (id) {
       getDetail(id).then(res => {
@@ -57,11 +57,12 @@ export default {
       loginStatus().then(res => {
         let { code, profile: { userId } } = res
         if (code === 200) {
-          this.checkLogin(true)
           this.getUserId(userId)
           this._getDetail(userId)
-        } else {
-          this.checkLogin(false)
+          // 页面回退
+          wx.navigateBack({
+            delta: 1
+          })
         }
       })
     },
@@ -71,12 +72,8 @@ export default {
         if (code === 200) {
           wx.hideLoading()
           let cookie = res.header['Set-Cookie']
-          setToken(cookie)
-          // wx.setStorageSync('cookie', cookie)
-          // console.log(cookie, wx.getStorageSync('cookie'))
-          wx.navigateBack({
-            delta: 1
-          })
+          this.setToken(cookie)
+          this._loginStatus()
         } else {
           wx.showToast({
             title: '您的用户名或密码有误！',

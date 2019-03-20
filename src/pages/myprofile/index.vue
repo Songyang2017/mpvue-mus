@@ -23,12 +23,17 @@
     <a
       href="/pages/login/main"
       v-if="!isLogin"
-      class="toLogin"
+      class="line"
     >登录</a>
+    <div
+      v-if="isLogin"
+      class="line"
+      @click="goLogout"
+    >退出登录</div>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 // import { loginStatus, getDetail } from '@/api/user'
 
 export default {
@@ -48,10 +53,18 @@ export default {
     ])
   },
   methods: {
+    ...mapMutations([
+      'setToken',
+      'checkLogin'
+    ]),
     goProfile (id) {
       wx.navigateTo({
         url: `/pages/profileIndex/main?uid=${id}`
       })
+    },
+    goLogout () {
+      this.setToken('')
+      this.checkLogin(false)
     }
   },
   watch: {
@@ -97,8 +110,10 @@ export default {
       }
     }
   }
-  .toLogin {
+  .line {
+    .bor-b();
     font-size: @font-size-medium-x;
+    padding: 10px;
     color: @color-text-s;
   }
 }
