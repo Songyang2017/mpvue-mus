@@ -54,8 +54,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setToken',
-      'checkLogin'
+      'setToken'
     ]),
     goProfile (id) {
       wx.navigateTo({
@@ -64,7 +63,6 @@ export default {
     },
     goLogout () {
       this.setToken('')
-      this.checkLogin(false)
     }
   },
   watch: {

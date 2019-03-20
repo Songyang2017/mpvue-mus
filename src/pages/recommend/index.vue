@@ -82,7 +82,6 @@ export default {
   methods: {
     ...mapMutations([
       'getUserId',
-      'checkLogin',
       'getUserData'
     ]),
     _getDetail (id) {
@@ -97,11 +96,8 @@ export default {
       loginStatus().then(res => {
         let { code, profile: { userId } } = res
         if (code === 200) {
-          this.checkLogin(true)
           this.getUserId(userId)
           this._getDetail(userId)
-        } else {
-          this.checkLogin(false)
         }
       })
     },

@@ -13,7 +13,7 @@ export default {
 
 <style lang="less">
 page {
-  background-color: #000;
+  background-color: rgb(36, 36, 36);
 }
 .container {
   height: 100%;
