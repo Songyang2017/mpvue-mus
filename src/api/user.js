@@ -45,7 +45,7 @@ export const login = param => {
 }
 
 // 获取用户动态
-export const getEvents = _id => {
+export const getEvents = (_id, _limit, _offset) => {
   let token = getToken()
   return new Promise((resolve, reject) => {
     wx.request({
@@ -55,7 +55,9 @@ export const getEvents = _id => {
         cookie: token
       },
       data: {
-        uid: _id
+        uid: _id,
+        limit: _limit,
+        offset: _offset
       },
       success (res) {
         resolve(res.data)

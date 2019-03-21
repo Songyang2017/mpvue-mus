@@ -61,23 +61,7 @@
       v-if="tabFlag === 1"
       class="mus"
     >
-      <div
-        class="mus-wrapper"
-        v-for="(item,inx) in events"
-        :key="inx"
-      >
-        <div class="mus-content">
-          <div v-if="item._json.msg">{{item._json.msg}}</div>
-          <div class="imgs">
-            <img
-              v-for="(it,ins) in events.pics"
-              :key="ins"
-              :src="it.pcSquareUrl"
-              alt=""
-            >
-          </div>
-        </div>
-      </div>
+      <event :list="events"></event>
     </div>
     <div
       v-if="tabFlag === 2"
@@ -88,6 +72,8 @@
 <script>
 import { getEvents, getDetail, getUserSongList } from '@/api/user'
 import { mapState } from 'vuex'
+import { dateFormat } from '@/utils'
+import event from '@/components/event'
 
 export default {
   data () {
@@ -115,7 +101,10 @@ export default {
     let _uid = this.$root.$mp.query.uid
     this._getDetail(_uid)
     this._getUserSongList(_uid)
-    this._getEvents(_uid)
+    this._getEvents(_uid, 30, 1)
+  },
+  components: {
+    event
   },
   computed: {
     ...mapState([
@@ -123,13 +112,14 @@ export default {
     ])
   },
   methods: {
-    _getEvents (id) {
-      getEvents(id).then(res => {
+    _getEvents (id, limit, offset) {
+      getEvents(id, limit, offset).then(res => {
         let { code, events } = res
         if (code === 200) {
           this.events = events
           this.events.forEach(val => {
             val._json = JSON.parse(val.json)
+            val._eventTime = dateFormat(new Date(val.eventTime), 'yyyy年MM月dd日')
           })
         }
       })
