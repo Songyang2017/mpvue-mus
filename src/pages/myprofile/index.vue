@@ -39,7 +39,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
-
+      userInfo: ''
     }
   },
   onShow () {
@@ -56,6 +56,21 @@ export default {
     ...mapMutations([
       'setToken'
     ]),
+    getUserInfo () {
+      // 调用登录接口
+      wx.login({
+        success: (ret) => {
+          console.log('ret', ret)
+          wx.getUserInfo({
+            lang: 'zh_CN',
+            success: (res) => {
+              this.userInfo = res.userInfo
+              // console.log(res)
+            }
+          })
+        }
+      })
+    },
     goProfile (id) {
       wx.navigateTo({
         url: `/pages/profileIndex/main?uid=${id}`
