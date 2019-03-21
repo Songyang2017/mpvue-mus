@@ -22,7 +22,7 @@ export default {
       list: []
     }
   },
-  onShow () {
+  mounted () {
     if (this.isLogin) {
       this._getFriendsEvents()
     }

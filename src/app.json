@@ -10,6 +10,7 @@
     "pages/login/main",
     "pages/music-list/main",
     "pages/followeds/main",
+    "pages/player/main",
     "pages/logs/main",
     "pages/counter/main"
   ],

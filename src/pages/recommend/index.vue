@@ -161,12 +161,13 @@ export default {
   }
   .playlist {
     .playlist-title {
-      font-size: @font-size-medium-x;
+      font-size: @font-size-medium;
       padding: 5rpx 10rpx;
       margin-bottom: 10rpx;
+      color: @color-text-x;
       .icon-jinru {
-        color: @color-text-s;
-        font-size: 30rpx;
+        color: @color-text-x;
+        font-size: 25rpx;
       }
     }
     .playlist-wrapper {

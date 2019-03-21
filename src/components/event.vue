@@ -32,15 +32,28 @@
             ></div>
         </div>
       </div>
+      <div class="videos">
+        <video
+          class="vid"
+          :src="$root+'/video/url?id='+its.video.videoId"
+          :poster="its.video.coverUrl"
+        ></video>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import config from '@/config'
 export default {
   props: {
     list: {
       type: Array,
       default: []
+    }
+  },
+  computed: {
+    $root () {
+      return config.baseUrl.root
     }
   }
 }
@@ -95,6 +108,12 @@ export default {
             width: 100%;
           }
         }
+      }
+    }
+    .videos {
+      width: 100%;
+      .vid {
+        width: 100%;
       }
     }
   }
