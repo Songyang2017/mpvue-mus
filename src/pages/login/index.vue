@@ -71,7 +71,8 @@ export default {
         let { code } = res.data
         if (code === 200) {
           wx.hideLoading()
-          let cookie = res.header['Set-Cookie']
+          let cookie = res.header['Set-Cookie'] || res.header['set-cookie']
+          console.log(res, cookie)
           this.setToken(cookie)
           this._loginStatus()
         } else {
