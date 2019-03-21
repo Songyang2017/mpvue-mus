@@ -42,6 +42,9 @@ export default {
   },
   methods: {
     _getFriendsEvents () {
+      wx.showLoading({
+        title: '玩命加载中'
+      })
       getFriendsEvents().then(res => {
         let { code, event } = res
         if (code === 200) {
@@ -51,6 +54,7 @@ export default {
           })
           this.list = event
           wx.stopPullDownRefresh()
+          wx.hideLoading()
         }
       })
     }
