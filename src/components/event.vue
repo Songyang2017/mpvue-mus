@@ -32,11 +32,17 @@
             ></div>
         </div>
       </div>
-      <div class="videos">
+      <div
+        class="videos"
+        v-if="item._json.video"
+        @click="_getEventsVideo(item._json.video.videoId, ('v-'+index))"
+      >
         <video
           class="vid"
-          :src="$root+'/video/url?id='+its.video.videoId"
-          :poster="its.video.coverUrl"
+          :id="'v-'+index"
+          :src="urls.url"
+          :duration="item._json.video.duration"
+          :poster="item._json.video.coverUrl"
         ></video>
       </div>
     </div>
@@ -44,6 +50,7 @@
 </template>
 <script>
 import config from '@/config'
+import { getEventsVideo } from '@/api/friend'
 export default {
   props: {
     list: {
@@ -51,9 +58,28 @@ export default {
       default: []
     }
   },
+  data () {
+    return {
+      urls: {}
+    }
+  },
   computed: {
-    $root () {
+    root () {
       return config.baseUrl.root
+    }
+  },
+  methods: {
+    _getEventsVideo (id, vd) {
+      getEventsVideo(id).then(res => {
+        let { code, urls } = res
+        if (code === 200) {
+          this.urls = urls[0]
+          setTimeout(() => {
+            this.videoContext = wx.createVideoContext(vd)
+            this.videoContext.play()
+          }, 10)
+        }
+      })
     }
   }
 }

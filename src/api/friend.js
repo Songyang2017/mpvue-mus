@@ -22,3 +22,25 @@ export const getFriendsEvents = () => {
     })
   })
 }
+// 获取动态里的视频
+export const getEventsVideo = (id) => {
+  let token = getToken()
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: `${$root}/video/url`,
+      method: 'get',
+      header: {
+        cookie: token
+      },
+      data: {
+        id: id
+      },
+      success (res) {
+        resolve(res.data)
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}

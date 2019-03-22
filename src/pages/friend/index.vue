@@ -22,7 +22,7 @@ export default {
       list: []
     }
   },
-  mounted () {
+  onShow () {
     if (this.isLogin) {
       this._getFriendsEvents()
     }
@@ -51,8 +51,10 @@ export default {
           event.forEach(v => {
             v._json = JSON.parse(v.json)
             v._eventTime = dateFormat(new Date(v.eventTime), 'yyyy年MM月dd日')
+            v._json.video.playState = false
           })
           this.list = event
+          console.log(this.list)
           wx.stopPullDownRefresh()
           wx.hideLoading()
         }
